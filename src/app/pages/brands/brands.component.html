@@ -1,0 +1,31 @@
+<section class="relative">
+
+    <div class="container w-[90%] mx-auto my-3">
+        <div class="row flex flex-wrap justify-between">
+            @for (brand of brandsData; track brand._id) {
+            <div (click)="getSpaceficBrand(brand._id)"
+                class="product brand border-2 border-emerald-500 m-2 hover:cursor-pointer">
+                <div class="img"><img [src]=brand.image alt="brand image"></div>
+                <div class="name text-center font-bold">
+                    <p>{{brand.name}}</p>
+                </div>
+            </div>
+            }
+        </div>
+        @if(open ==true){
+        <div (click)="closeWindo($event)" class="overlay absolute top-0 right-0 left-0 bottom-0 flex justify-center ">
+            <div
+                class="brand flex flex-col border-2 border-emerald-500  w-1/4  fixed top-1/4 bg-emerald-500 p-5 text-white">
+                <div class="text-end "><span (click)="open=false"><i
+                            class="hover:cursor-pointer text-xl mb-2 fa-solid fa-circle-xmark"></i></span></div>
+                <img src={{brangImage}} alt="brand image" class="w-full">
+                <div class="name text-center font-bold">
+                    <p>{{brandName}}</p>
+                </div>
+            </div>
+        </div>
+        }
+
+    </div>
+
+</section>

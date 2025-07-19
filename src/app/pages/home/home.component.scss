@@ -1,0 +1,10 @@
+.product button {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: 0.3s;
+}
+
+.product:hover button {
+  opacity: 1;
+  transform: translateY(0);
+}

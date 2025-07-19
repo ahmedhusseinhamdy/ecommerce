@@ -1,0 +1,43 @@
+<section class="bg-slate-100 rounded-md my-4 p-4 w-2/3 mx-auto shadow-md">
+    <form [formGroup]="detailsForm" (ngSubmit)="detailsSubmit()">
+
+        <div class="my-3">
+            @let details = detailsForm.get('details');
+            <label for="details" class="block mb-2 text-sm font-medium text-gray-900">details:</label>
+            <input [class]="{ 
+                'my-valid': !details?.errors && details?.touched ,
+                 'my-invalid': details?.errors && details?.touched 
+                 }" type="text" id="details" formControlName="details"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+        </div>
+        <div class="my-3">
+            @let phone = detailsForm.get('phone');
+            <label for="phone" class="block mb-2 text-sm font-medium text-gray-900"> phone:</label>
+            <input [class]="{ 
+                'my-valid': !phone?.errors && phone?.touched ,
+                 'my-invalid': phone?.errors && phone?.touched 
+                 }" type="tel" id="phone" formControlName="phone"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+        </div>
+        <div class="my-3">
+            @let city = detailsForm.get('city');
+            <label for="city" class="block mb-2 text-sm font-medium text-gray-900">city:</label>
+            <input [class]="{ 
+                'my-valid': !city?.errors && city?.touched ,
+                 'my-invalid': city?.errors && city?.touched 
+                 }" type="text" id="city" formControlName="city"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+        </div>
+        <div>
+            <button class="my-btn">payment <span><i class="fa-brands fa-cc-visa"></i></span></button>
+        </div>
+
+    </form>
+
+
+
+
+
+
+
+</section>
