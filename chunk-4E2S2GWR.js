@@ -1,0 +1,1 @@
+import{_a as i}from"./chunk-4CFQG3UO.js";var a=class r{transform(t,e){return t.filter(n=>n.title.toLowerCase().includes(e.toLocaleLowerCase()))}static \u0275fac=function(e){return new(e||r)};static \u0275pipe=i({name:"searchh",type:r,pure:!0})};export{a};
