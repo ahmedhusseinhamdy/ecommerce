@@ -1,17 +1,22 @@
-<section class="bg-slate-200 rounded-md my-4 p-4 w-2/3 mx-auto shadow-md">
-    <h1 class="text-emerald-400 font-black text-4xl">Login:</h1>
-    @if (resText) {<span class="bg-red-300 p-3 absolute top-5 end-5">{{resText}}</span>}
-    <form [formGroup]="loginForm" (ngSubmit)="login()">
-        <div class="my-3">
-            @let emailFormControl = loginForm.get('email');
-            <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email:</label>
-            <input [class]="{ 
-                'my-valid': !emailFormControl?.errors && (emailFormControl?.touched || emailFormControl?.dirty),
-                 'my-invalid': emailFormControl?.errors && (emailFormControl?.touched || emailFormControl?.dirty),
-                 }" type="email" placeholder="ex:example@example.com" id="email" formControlName="email"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-            @if (emailFormControl?.errors && emailFormControl?.touched) {
-            <div class="flex p-4 my-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+<section class="w-2/3 mx-auto bg-slate-200 my-8 p-5 rounded-lg relative" #login>
+
+    <form [formGroup]="loginform" (ngSubmit)="showdata()">
+        <h1 class="text-emerald-500  font-bold text-2xl">Login</h1>
+        @if (restext !='') { <h1 class="bg-red-600 text-xl text-center text-white rounded-xl my-5 p-6">{{restext}}</h1>}
+
+        <div class="my-5">
+            <label for="default-input"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+            <input [(ngModel)]="useremail" formControlName="email" type="text" id="email"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                [class]="{
+                    'valid' : !loginform.get('email')?.errors && loginform.get('email')?.touched,
+                    'invalid' : loginform.get('email')?.errors && loginform.get('email')?.touched
+               
+                }">
+
+            @if (loginform.get('email')?.errors && loginform.get('email')?.touched) {
+            <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
                 role="alert">
                 <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                     fill="currentColor" viewBox="0 0 20 20">
@@ -20,25 +25,31 @@
                 </svg>
                 <span class="sr-only">Danger</span>
                 <div>
-                    <span class="font-medium">Plaese check errors:</span>
+
                     <ul class="mt-1.5 list-disc list-inside">
-                        @if (emailFormControl?.getError('required')) {<li>email is required </li>}
-                        @if (emailFormControl?.getError('email')) {<li>email foramt is not correct</li>}
+                        @if(loginform.get('email')?.getError('required')){<li>Email is required</li>}
+                        @if (loginform.get('email')?.getError('email')) {<li>Email format is wrong</li>}
                     </ul>
                 </div>
+
             </div>
             }
+
         </div>
-        <div class="my-3">
-            @let passwordFormControl = loginForm.get('password');
-            <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Password:</label>
-            <input [class]="{
-                'my-valid': !passwordFormControl?.errors && (passwordFormControl?.touched || passwordFormControl?.dirty),
-                'my-invalid': passwordFormControl?.errors && (passwordFormControl?.touched || passwordFormControl?.dirty),
-            }" type="password" placeholder="ex:example_123" id="password" formControlName="password"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-            @if (passwordFormControl?.errors && passwordFormControl?.touched) {
-            <div class="flex p-4 my-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+
+
+        <div class="my-5">
+            <label for="default-input"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">password</label>
+            <input formControlName="password" type="password" id="password"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                [class]="{
+                    'valid' : !loginform.get('password')?.errors && loginform.get('password')?.touched,
+                    'invalid' : loginform.get('password')?.errors && loginform.get('password')?.touched
+                }">
+
+            @if (loginform.get('password')?.errors && loginform.get('password')?.touched) {
+            <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
                 role="alert">
                 <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                     fill="currentColor" viewBox="0 0 20 20">
@@ -47,19 +58,132 @@
                 </svg>
                 <span class="sr-only">Danger</span>
                 <div>
-                    <span class="font-medium">Plaese check errors:</span>
+
                     <ul class="mt-1.5 list-disc list-inside">
-                        @if (passwordFormControl?.getError('required')) {<li>password is required </li>}
-                        @if (passwordFormControl?.getError('pattern')) {<li>password must be at least 6</li>}
+                        @if (loginform.get('password')?.getError('required')) {<li>Password is required</li>}
+                        @if(loginform.get('password')?.getError('pattern')){ <li>The password dosen't match the pattern
+                        </li>}
                     </ul>
                 </div>
+
             </div>
             }
+
         </div>
-        <button type="submit" [disabled]="loginForm.invalid" class="my-btn disabled:bg-slate-200">
-            @if (!loading) {Login <span><i class="fa-solid fa-right-to-bracket"></i></span>}
-            @if (loading) {<span><i class="fa-solid fa-circle-notch fa-spin"></i></span>}
+
+        <div class=" w-1/6">
+            <p (click)="ForgetUserPassword()" class="font-bold text-emerald-800 hover:cursor-pointer my-3">Forget
+                Password ?</p>
+        </div>
+
+        <button
+            class="w-full bg-emerald-500 p-3 rounded-xl text-white hover:bg-emerald-600 transition-all duration-500 text-center">
+            Signup @if (loading != false) {<span><i class="fa-solid fa-circle-notch fa-spin"></i></span>}
         </button>
+
     </form>
 
+    @if(open ==true){
+    <div (click)="closeWindo($event)" class="overlay absolute top-0 right-0 left-0 bottom-0 flex justify-center ">
+        <div
+            class="brand flex flex-col border-2 border-emerald-500  w-1/4  fixed top-1/4 bg-emerald-700 p-5 text-white rounded-xl">
+            <div class="text-end "><span (click)="open=false"><i
+                        class="hover:cursor-pointer text-xl mb-2 fa-solid fa-circle-xmark"></i></span></div>
+
+            <div class="name text-center font-bold flex flex-col my-2">
+                <input (ngModel)="resetCode" type="text" placeholder="Enter Reset code"
+                    class="my-2 border rounded-lg text-black ">
+                <button (click)="VerifyCode()"
+                    class="border border-emerald-300 rounded-lg bg-emerald-400 text-white-400 p-2">submit</button>
+            </div>
+        </div>
+    </div>
+    }
+
+
+</section>
+
+<section class="w-2/3 mx-auto bg-slate-200 my-8 p-5 rounded-lg relative hidden" #resetpassword>
+
+    <form [formGroup]="resetPasswordForm" (ngSubmit)="resetPasswordData()">
+
+        <h1 class="text-emerald-500  font-bold text-2xl">Reset Password</h1>
+        @if (restext !='') { <h1 class="bg-red-600 text-xl text-center text-white rounded-xl my-5 p-6">{{restext}}</h1>}
+
+        <div class="my-5">
+            <label for="default-input"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+            <input formControlName="email" type="text" id="email"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                [class]="{
+                    'valid' : !resetPasswordForm.get('email')?.errors && resetPasswordForm.get('email')?.touched,
+                    'invalid' : resetPasswordForm.get('email')?.errors && resetPasswordForm.get('email')?.touched
+               
+                }">
+
+            @if (resetPasswordForm.get('email')?.errors && resetPasswordForm.get('email')?.touched) {
+            <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                role="alert">
+                <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                </svg>
+                <span class="sr-only">Danger</span>
+                <div>
+
+                    <ul class="mt-1.5 list-disc list-inside">
+                        @if(resetPasswordForm.get('email')?.getError('required')){<li>Email is required</li>}
+                        @if (resetPasswordForm.get('email')?.getError('email')) {<li>Email format is wrong</li>}
+                    </ul>
+                </div>
+
+            </div>
+            }
+
+        </div>
+
+        <div class="my-5">
+            <label for="default-input"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">newPassword</label>
+            <input formControlName="newPassword" type="text" id="newPassword"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                [class]="{
+                    'valid' : !resetPasswordForm.get('newPassword')?.errors && resetPasswordForm.get('newPassword')?.touched,
+                    'invalid' : resetPasswordForm.get('newPassword')?.errors && resetPasswordForm.get('newPassword')?.touched
+               
+                }">
+
+            @if (resetPasswordForm.get('newPassword')?.errors && resetPasswordForm.get('newPassword')?.touched) {
+            <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                role="alert">
+                <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                </svg>
+                <span class="sr-only">Danger</span>
+                <div>
+
+                    <ul class="mt-1.5 list-disc list-inside">
+                        @if(resetPasswordForm.get('newPassword')?.getError('required')){<li>newPassword is required</li>
+                        }
+                        @if(resetPasswordForm.get('newPassword')?.getError('pattern')){ <li>The password dosen't match
+                            the pattern</li>}
+
+                    </ul>
+                </div>
+
+            </div>
+            }
+
+        </div>
+
+        <button
+            class="w-full bg-emerald-500 p-3 rounded-xl text-white hover:bg-emerald-600 transition-all duration-500 text-center">
+            Submit @if (loading != false) {<span><i class="fa-solid fa-circle-notch fa-spin"></i></span>}
+        </button>
+
+
+    </form>
 </section>

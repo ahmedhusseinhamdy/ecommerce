@@ -1,1 +1,31 @@
-<p>allorders works!</p>
+<section class="p-4 my-5 ">
+    <div class="container w-[90%] mx-auto">
+        <h1 class="font-bold text-2xl text-emerald-600">All Orders :</h1>
+        <h3 class="text-lg my-3"><span class="text-emerald-600">total orders price :</span>
+            {{orders[0].totalOrderPrice}} EGP</h3>
+        <h3 class="text-lg my-3"><span class="text-emerald-600">Taxs price price :</span> {{orders[0].taxPrice}} EGP
+        </h3>
+        <h3 class="text-lg my-3"><span class="text-emerald-600">Is paied :</span> @if (paied==true) {paid}</h3>
+        <!-- <h3 class="text-lg my-3"><span class="text-emerald-600">Is paied  :</span> </h3> -->
+        <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            @for (order of orders; track order._id) {
+            <div class="product cursor-pointer p-4 ">
+                <div>
+                    <div class="mt-4">
+                        <img [src]="order.cartItems[0].product.imageCover" class="object-contain"
+                            [alt]="order.cartItems[0].product.title">
+                    </div>
+                    <div class="mt-4">
+                        <h2 class="text-main">{{order.cartItems[0].product.title}}</h2>
+                        <h1>{{order.cartItems[0].product.title.split(' ').slice(0,3).join(' ')}}</h1>
+                    </div>
+                    <div class="mt-4 flex justify-between">
+                        <h3><span class="text-lg text-emerald-600">price :</span> {{order.cartItems[0].price}}</h3>
+
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</section>

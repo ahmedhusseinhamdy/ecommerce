@@ -25,5 +25,7 @@ export class PaymentService {
     return this._HttpClient.post(`${environement.baseUrl}/api/v1/orders/checkout-session/${c_id}?url=${environement.domain}`, { "shippingAddress": data }, { headers: this.userToken })
   }                                                                                           
 
-
+    getUserOrders(userId:string):Observable<any>{
+    return this._HttpClient.get(`${environement.baseUrl}/api/v1/orders/user/${userId}`)
+  }
 }
