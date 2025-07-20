@@ -22,11 +22,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
   check: InputSignal<boolean> = input(false);
 
     ngOnInit(): void {
-      this._CartService.GetLoggedUserCart().subscribe({
-        next: (res) => {
-          this.navCartCont = res.numOfCartItems
-        }
-      });
+      // this._CartService.GetLoggedUserCart().subscribe({
+      //   next: (res) => {
+      //     this.navCartCont = res.numOfCartItems
+      //   }
+      // });
 
       this.cancel = this._CartService.cartcount.subscribe({
         next: (value) => {

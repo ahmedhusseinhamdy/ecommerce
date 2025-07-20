@@ -12,7 +12,7 @@ export const appConfig: ApplicationConfig = {
      provideHttpClient(withFetch()),
      provideClientHydration(withEventReplay()),
      importProvidersFrom(BrowserAnimationsModule),
-     provideToastr()
+     provideToastr(),
     ]
 };
   

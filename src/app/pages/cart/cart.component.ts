@@ -21,14 +21,14 @@ export class CartComponent implements OnInit {
   private readonly _CartService = inject(CartService)
 
   ngOnInit(): void {
-    this._CartService.GetLoggedUserCart().subscribe({
-      next: (res) => {
-        this.cartData = res.data
-      },
-      error: (err) => {
-        console.log(err);
-      }
-    })
+    // this._CartService.GetLoggedUserCart().subscribe({
+    //   next: (res) => {
+    //     this.cartData = res.data
+    //   },
+    //   error: (err) => {
+    //     console.log(err);
+    //   }
+    // })
   }
 
   deleteItemFromCart(p_id: string) {
