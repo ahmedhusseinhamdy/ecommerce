@@ -27,6 +27,7 @@ export const routes: Routes = [
             { path: 'cart', loadComponent: () => import('./pages/cart/cart.component').then((classes) => classes.CartComponent), title: 'Cart' },
             { path: 'allorders', loadComponent: () => import('./pages/allorders/allorders.component').then((classes) => classes.AllordersComponent), title: 'allorders' },
             { path: 'checout/:c_id', loadComponent: () => import('./pages/checout/checout.component').then((classes) => classes.ChecoutComponent), title: 'checout' },
+            { path: 'wishlist', loadComponent: () => import('./pages/wishlist/wishlist/wishlist.component').then((classes) => classes.WishlistComponent), title: 'checout' },
             { path: 'product-details/:p_id', loadComponent: () => import('./pages/productdetails/productdetails.component').then((classes) => classes.ProductdetailsComponent), title: 'Details' },
             { path: '**', component: NotfoundComponent, title: 'Error 404' }
         ]

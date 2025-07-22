@@ -1,94 +1,44 @@
-import { BehaviorSubject, Observable, EMPTY } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { environement } from '../../../shard/environement/environement';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
+import { environement } from '../../../shard/environement/environement';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-
+  UserToken: any
   cartcount: BehaviorSubject<number> = new BehaviorSubject(0);
 
-  constructor(
-    private _HttpClient: HttpClient,
-    @Inject(PLATFORM_ID) private platformId: any
-  ) {}
+  private readonly _PLATFORM_ID = inject(PLATFORM_ID)
 
-  private getToken(): string | null {
-    if (isPlatformBrowser(this.platformId)) {
-      return sessionStorage.getItem('token');
+  constructor(private _HttpClient: HttpClient) {
+    if (isPlatformBrowser(this._PLATFORM_ID)) {
+      this.UserToken = { token: sessionStorage.getItem('token') }
     }
-    return null;
+    else (
+      this.UserToken = { token: null }
+    )
   }
 
-  private getAuthHeaders(): HttpHeaders {
-    const token = this.getToken();
-    return new HttpHeaders({
-      Authorization: `Bearer ${token || ''}`
-    });
+  getUserCart(): Observable<any> {
+    return this._HttpClient.get(`${environement.baseUrl}/api/v1/cart`, { headers: this.UserToken })
   }
 
-  /**
-   * Get the user's cart
-   */
-  GetLoggedUserCart(): Observable<any> {
-    const token = this.getToken();
-    if (!token) return EMPTY;
-    return this._HttpClient.get(
-      `${environement.baseUrl}/api/v1/cart`,
-      { headers: this.getAuthHeaders() }
-    );
+  AddProductToCart(p_id: string): Observable<any> {
+    return this._HttpClient.post(`${environement.baseUrl}/api/v1/cart`, { "productId": p_id }, { headers: this.UserToken })
   }
 
-  /**
-   * Add a product to the cart
-   */
-  addProductCart(p_id: string): Observable<any> {
-    const token = this.getToken();
-    if (!token) return EMPTY;
-    return this._HttpClient.post(
-      `${environement.baseUrl}/api/v1/cart`,
-      { productId: p_id },
-      { headers: this.getAuthHeaders() }
-    );
+  RemovespecificcartItem(p_id: string): Observable<any> {
+    return this._HttpClient.delete(`${environement.baseUrl}/api/v1/cart/${p_id}`, { headers: this.UserToken })
   }
 
-  /**
-   * Remove a specific product from the cart
-   */
-  RemoveSpecificCartItem(p_id: string): Observable<any> {
-    const token = this.getToken();
-    if (!token) return EMPTY;
-    return this._HttpClient.delete(
-      `${environement.baseUrl}/api/v1/cart/${p_id}`,
-      { headers: this.getAuthHeaders() }
-    );
-  }
-
-  /**
-   * Update quantity of a specific product
-   */
-  Updatecartproductquantity(p_id: string, count: number): Observable<any> {
-    const token = this.getToken();
-    if (!token) return EMPTY;
-    return this._HttpClient.put(
-      `${environement.baseUrl}/api/v1/cart/${p_id}`,
-      { count },
-      { headers: this.getAuthHeaders() }
-    );
-  }
-
-  /**
-   * Clear the user's cart
-   */
   Clearusercart(): Observable<any> {
-    const token = this.getToken();
-    if (!token) return EMPTY;
-    return this._HttpClient.delete(
-      `${environement.baseUrl}/api/v1/cart`,
-      { headers: this.getAuthHeaders() }
-    );
+    return this._HttpClient.delete(`${environement.baseUrl}/api/v1/cart`, { headers: this.UserToken })
+  }
+
+  UpdateCartProductQuantity(p_id: string, count: number): Observable<any> {
+    return this._HttpClient.put(`${environement.baseUrl}/api/v1/cart/${p_id}`, { "count": count }, { headers: this.UserToken })
   }
 }

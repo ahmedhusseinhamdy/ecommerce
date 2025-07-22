@@ -62,7 +62,7 @@ export class ProductdetailsComponent implements OnInit {
   }
 
    addTocart() {
-    this._CartService.addProductCart(this.productID).subscribe({
+    this._CartService.AddProductToCart(this.productID).subscribe({
       next: (res) => {
         console.log(res);
       },

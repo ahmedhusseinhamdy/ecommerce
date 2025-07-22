@@ -106,11 +106,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   addTocart(p_id: string) {
-    this._CartService.addProductCart(p_id).subscribe({
+    this._CartService.AddProductToCart(p_id).subscribe({
       next: (res) => {
         console.log(res.numOfCartItems);
         //next ()to set value in behaviour suibject 
-        this._CartService.cartcount.next(res.numOfCartItems) ;  
+        this._CartService.cartcount.next(res.numOfCartItems);
         this._toastr.success(res.message, 'FershCart',
           {
             closeButton: true,

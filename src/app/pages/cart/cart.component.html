@@ -1,47 +1,51 @@
-@if (cartData!=null) {<section class="bg-slate-100 rounded-md my-4 p-4 w-2/3 mx-auto shadow-md">
-    <h1 class="font-black text-4xl text-emerald-400 my-3">Shop Cart</h1>
-    <h3 class="font-black text-1xl text-emerald-400 my-3">Total Cart Price :@if (cartData.totalCartPrice>0) {
-        {{cartData.totalCartPrice|currency:'GBP'}}}@else {0 EGP}
-    </h3>
-    <div class="container w-[90%] mx-auto">
-
-        @for (product of cartData.products; track product.product ) {
-        <div class="flex flex-wrap justify-between items-center border-b-4 border-gray-400 py-2">
-            <div class="w-full sm:w-1/5">
-                <div class="p-img">
-                    <img [src]="product.product.imageCover" class="w-full object-contain" alt="">
-                </div>
-            </div>
-            <div class="w-full sm:w-1/2">
-                <div class="p-desc">
-                    <h1 class="font-black text-5xl my-3">Title:{{product.product.title}}</h1>
-                    <h2 class="font-black text-2xl text-emerald-400 my-3">Price :{{product.price}}</h2>
-                    <h3 (click)="deleteItemFromCart(product.product._id)" class="text-red-600 cursor-pointer my-3">
-                        Remove<i class="fa-solid fa-trash"></i></h3>
-                </div>
-            </div>
-
-            <div class="w-full sm:w-1/5">
-                <div class="count  text-emerald-400 text-2xl flex flex-wrap justify-between">
-                    <span (click)="updateCount(product.product._id,product.count +1)"><i
-                            class="fa-solid fa-circle-plus"></i></span>
-                    <h3>{{product.count}}</h3>
-                    @if (product.count>=1) { <span (click)="updateCount(product.product._id,product.count -1)">
-                        <i class="fa-solid fa-circle-minus"></i></span>}
-                </div>
-            </div>
+@if (userCart!=null) {
+<section class="w-2/3 mx-auto bg-slate-200 my-8 p-5 rounded-lg">
+    <div class="flex flex-wrap justify-between">
+        <div class="header">
+            <h1 class="text-2xl font-bold">Shop Cart :</h1>
+            <h3 class="text-emerald-500 text-xl my-2">Total Cart Price : {{userCart.totalCartPrice}} EGP</h3>
         </div>
-        }
-        @if (cartData.products.length>0) {
-        <div class="my-3  ">
-            <button class="my-btn" (click)=" clearCart()">delete all cart<i class="fa-solid fa-trash-can"></i></button>
+        <div>
+            <a (click)="clearCart()"
+                class="text-l  border-2 border-red-600 p-3 hover:text-red-600 transition-all cursor-pointer">Remove All
+                <span><i class="text-red-600 me-3 fa-solid fa-trash"></i></span></a>
         </div>
-        }
-        @if (cartData.products.length>0) {
-        <div class="my-3">
-            <button [routerLink]="['/checout',cartData._id]" class="my-btn">Check out </button>
-        </div>
-        }
-
     </div>
-</section>}
+
+    <div class="container w-[90%]">
+        @for (product of userCart.products; track product.product) {
+
+        <div class="row flex flex-wrap justify-between items-center my-2 border-b-2  sm:my-3 border-emerald-700">
+
+            <div class="product-img w-1/5">
+                <img [src]="product.product.imageCover" class="object-contain w-full " alt="product">
+            </div>
+
+            <div class="product-details w-1/2">
+                <h2 class="text-xl my-1 font-bold">{{product.product.title}} </h2>
+                <p class="text-emerald-600 my-1 font-bold">Price : {{product.price}} </p>
+                <a (click)="deleteProduct(product.product._id)" class="cursor-pointer "><i
+                        class="text-red-600 me-3 fa-solid fa-trash"></i>
+                    <span class="hover:text-red-600 transition-all ">Remove</span></a>
+            </div>
+
+            <div class="product-count w-1/5 flex flex-wrap justify-evenly items-center">
+                <i (click)="updateCount(product.product._id , product.count+1)"
+                    class="text-emerald-500 fa-regular fa-square-plus hover:scale-125 transition-all cursor-pointer"></i>
+                <p class="text-xl">{{product.count}}</p>
+
+                @if (product.count>=1) {<i (click)="updateCount(product.product._id , product.count-1)"
+                    class="text-emerald-500 fa-regular fa-square-minus hover:scale-125 transition-all cursor-pointer"></i>
+                }
+            </div>
+        </div>
+        }
+    </div>
+
+    @if (userCart.products.length > 0) {
+    <div class="w-full bg-emerald-600 p-3 rounded-lg text-white font-bold hover:bg-emerald-700 transition-all">
+        <button [routerLink]="['/checkout',userCart._id]" class="w-full">Check out </button>
+    </div>
+    }
+</section>
+}

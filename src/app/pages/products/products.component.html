@@ -1,10 +1,7 @@
-@if (ProductsData!=null) {<section class=" p-4 my-5">
-    <input [(ngModel)]="searchValue" type="text" placeholder="search by name..."
-        class="p-4 mx-auto block rounded w-[50%]">
+<section class=" p-4 my-5">
     <div class="container w-[90%] mx-auto">
-        <h1 class="min-title"> Recommend products:</h1>
         <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-            @for (product of ProductsData|searchh:searchValue; track product._id){
+            @for (product of productData; track product._id){
             <div class="product cursor-pointer p-4" >
                 <div [routerLink]="['/product-details',product._id ]">
                     <div class="mt-4">
@@ -26,4 +23,4 @@
             }
         </div>
     </div>
-</section>}
+</section>

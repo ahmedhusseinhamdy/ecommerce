@@ -1,41 +1,57 @@
-import { Product } from './../../core/interfaces/cart/icart';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { RouterLink } from '@angular/router';
 import { CartService } from '../../core/services/cart/cart.service';
 import { ICart } from '../../core/interfaces/cart/icart';
-import { CurrencyPipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-cart',
-  imports: [CurrencyPipe, RouterLink],
+  imports: [RouterLink],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss'
 })
 export class CartComponent implements OnInit {
 
-
-  cartData: ICart | null = null
-  
   constructor(private toastr: ToastrService) { }
   private readonly _CartService = inject(CartService)
 
+  userCart!: ICart
+  cartid!: string
   ngOnInit(): void {
-    // this._CartService.GetLoggedUserCart().subscribe({
-    //   next: (res) => {
-    //     this.cartData = res.data
-    //   },
-    //   error: (err) => {
-    //     console.log(err);
-    //   }
-    // })
+    this._CartService.getUserCart().subscribe({
+      next: (res) => {
+        this.userCart = res.data;
+        console.log(this.userCart);
+        console.log("cartid", res);
+        console.log(this.cartid);
+
+
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
   }
 
-  deleteItemFromCart(p_id: string) {
-    this._CartService.RemoveSpecificCartItem(p_id).subscribe({
+  deleteProduct(p_id: string) {
+    this._CartService.RemovespecificcartItem(p_id).subscribe({
       next: (res) => {
-        this.cartData = res.data;//overwrite
-        this._CartService.cartcount.next(res.numOfCartItems);
+        console.log(res);
+        this.userCart = res.data;
+        this.toastr.info("The product has been removed from the cart!")
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
+  }
+
+  clearCart() {
+    this._CartService.Clearusercart().subscribe({
+      next: (res) => {
+        console.log(res);
+        this.userCart = {} as ICart;
+        this.toastr.info("The cart has been cleared!")
       },
       error: (err) => {
         console.log(err);
@@ -44,30 +60,16 @@ export class CartComponent implements OnInit {
   }
 
   updateCount(p_id: string, count: number) {
-    if (count >= 1) {
-      this._CartService.Updatecartproductquantity(p_id, count).subscribe({
-        next: (res) => {
-          console.log(res);
-          this.cartData = res.data
-        },
-        error: (err) => {
-          console.log(err);
-        }
-      })
-    }
-  }
-  clearCart() {
-    this._CartService.Clearusercart().subscribe({
+    this._CartService.UpdateCartProductQuantity(p_id, count).subscribe({
       next: (res) => {
         console.log(res);
-        this.cartData = {} as ICart;
-        this.toastr.info("The cart has been cleared!")
+        this.userCart = res.data;
+        this.toastr.success("The quantity has been updated !")
       },
       error: (err) => {
         console.log(err);
+        this.toastr.error("Failed to update the quantity !")
       }
     })
   }
 }
-
-
