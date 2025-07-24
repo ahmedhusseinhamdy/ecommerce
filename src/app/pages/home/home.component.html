@@ -66,6 +66,11 @@
                         <samp><i class="rating-color fa-solid fa-star"></i>{{product.ratingsAverage}}</samp>
                     </div>
                 </div>
+                    <div>
+                    <div class="my-2">
+                        <span  (click)="addToWishlist(product._id , $event)" ><i  class="text-xl fa-solid fa-heart hover:text-red-700"></i> </span>
+                    </div>
+                </div>
                 <div class="mt-4">
                     <button (click)="addTocart(product._id)" class="btn-main w-3/4 mx-auto block">+Add to cart</button>
                 </div>

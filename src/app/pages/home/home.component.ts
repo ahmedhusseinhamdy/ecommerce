@@ -11,6 +11,7 @@ import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/authentication/auth.service';
 import { CartService } from '../../core/services/cart/cart.service';
 import { ToastrService } from 'ngx-toastr';
+import { WishlistService } from '../../core/services/wishlist/wishlist.service';
 
 @Component({
   selector: 'app-home',
@@ -77,6 +78,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private readonly _CategoriesService = inject(CategoriesService);
   private readonly _CartService = inject(CartService);
   private readonly _toastr = inject(ToastrService);
+  private readonly _WishlistService = inject(WishlistService);
 
 
   ngOnInit(): void {
@@ -99,12 +101,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       },
     })
   }
-
-  ngOnDestroy(): void {
-    this.categoriesSub?.unsubscribe()
-    this.ProductsSub?.unsubscribe()
-  }
-
   addTocart(p_id: string) {
     this._CartService.AddProductToCart(p_id).subscribe({
       next: (res) => {
@@ -127,4 +123,38 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     })
   }
+   addToWishlist(p_id:string , e:Event){
+   
+    this._WishlistService.AddProductToWishlist(p_id ).subscribe({
+     next:(res)=>{
+       console.log(res);
+      
+       this._toastr.success('Product added to wishlist successfully!',"",
+        {
+          closeButton:true,
+          timeOut:5000,
+          
+        })
+        let hearticon = e.target as HTMLElement
+        hearticon.classList.add('heart')
+        
+     },
+     error:(err)=>{
+       console.log(err);
+       this._toastr.error('Failed to add product to cart!')
+  
+     }
+    })
+   }
+
+
+
+
+
+
+  ngOnDestroy(): void {
+    this.categoriesSub?.unsubscribe()
+    this.ProductsSub?.unsubscribe()
+  }
+
 }

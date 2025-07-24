@@ -2,7 +2,7 @@
     <div class="container w-[90%] mx-auto">
         <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
             @for (product of productData; track product._id){
-            <div class="product cursor-pointer p-4" >
+            <div class="product cursor-pointer p-4">
                 <div [routerLink]="['/product-details',product._id ]">
                     <div class="mt-4">
                         <img [src]="product.imageCover" [alt]="product.title">
@@ -14,6 +14,12 @@
                     <div class="m-4 flex flex-wrap justify-between">
                         <h3>{{product.price}}</h3>
                         <samp><i class="rating-color fa-solid fa-star"></i>{{product.ratingsAverage}}</samp>
+                    </div>
+                </div>
+                <div>
+                    <div class="my-2">
+                        <span (click)="addToWishlist(product._id , $event)"><i
+                                class="text-xl fa-solid fa-heart hover:text-red-700"></i> </span>
                     </div>
                 </div>
                 <div class="mt-4">
