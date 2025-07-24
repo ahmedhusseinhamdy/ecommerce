@@ -4,6 +4,8 @@ import { ProductService } from '../../core/services/products/product.service';
 import { IProduct } from '../../core/interfaces/products/iproduct';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { CartService } from '../../core/services/cart/cart.service';
+import { WishlistService } from '../../core/services/wishlist/wishlist.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-productdetails',
@@ -34,7 +36,8 @@ export class ProductdetailsComponent implements OnInit {
 
   private readonly _ActivatedRoute = inject(ActivatedRoute)
   private readonly _CartService = inject(CartService)
-
+  private readonly _WishlistService = inject(WishlistService)
+  private readonly _toastr = inject(ToastrService);
   constructor(private _ProductService: ProductService) { }
 
   ngOnInit(): void {
@@ -61,7 +64,7 @@ export class ProductdetailsComponent implements OnInit {
     })
   }
 
-   addTocart() {
+  addTocart() {
     this._CartService.AddProductToCart(this.productID).subscribe({
       next: (res) => {
         console.log(res);
@@ -71,5 +74,26 @@ export class ProductdetailsComponent implements OnInit {
       }
     })
   }
+
+   addToWishlist(p_id:string , e:Event){ 
+    this._WishlistService.AddProductToWishlist(p_id ).subscribe({
+     next:(res)=>{
+       console.log(res);
+       this._toastr.success('Product added to wishlist successfully!',"",
+        {
+          closeButton:true,
+          timeOut:5000,  
+        })
+        let hearticon = e.target as HTMLElement
+        hearticon.classList.add('heart')
+        
+     },
+     error:(err)=>{
+       console.log(err);
+       this._toastr.error('Failed to add product to cart!')
   
+     }
+    })
+   }
+
 }

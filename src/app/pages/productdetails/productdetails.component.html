@@ -18,6 +18,11 @@
                 <h3>{{productdetails.price}}</h3>
                 <samp><i class="rating-color fa-solid fa-star"></i>{{productdetails.ratingsAverage}}</samp>
             </div>
+                <div>
+                    <div class="my-2">
+                        <span  (click)="addToWishlist(productdetails._id , $event)" ><i  class="text-xl fa-solid fa-heart hover:text-red-700"></i> </span>
+                    </div>
+                </div>
             <div class="mt-4">
                 <button (click)="addTocart()" class="btn-main w-full block">+Add to cart</button>
             </div>
